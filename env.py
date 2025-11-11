@@ -10,6 +10,6 @@ print("ROOT_PATH:", ROOT_PATH)
 load_dotenv(find_dotenv(str(ROOT_PATH / '.env')))
 
 
-IP = os.environ.get("IP")
+HOST_IP = os.environ.get("HOST_IP")
 PORT = os.environ.get("PORT")
 MODEL_PATH = os.environ.get("MODEL_PATH")

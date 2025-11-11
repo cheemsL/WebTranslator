@@ -14,6 +14,8 @@ print(MODEL_PATH)
 
 
 class Qwen3:
+
+
     def __init__(self):
         self.__model = AutoModelForCausalLM.from_pretrained(
             MODEL_PATH,

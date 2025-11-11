@@ -7,12 +7,21 @@ from env import (
     HOST_IP,
     PORT
 )
+from core.model import Qwen3
+from core.tts import TTSVoice
+
+
+model_map = {}
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    model_map["llm"] = Qwen3()
+    model_map["tts"] = TTSVoice()
 
     yield
+
+    model_map.clear()
 
 
 app = FastAPI(
@@ -27,6 +36,12 @@ app.add_middleware(
     allow_methods=["*"], # Allows all methods
     allow_headers=["*"], # Allows all headers
 )
+
+
+@app.get("/")
+async def root():
+    return "Hello World!"
+
 
 
 if __name__ == '__main__':

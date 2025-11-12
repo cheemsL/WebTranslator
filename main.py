@@ -27,6 +27,9 @@ async def lifespan(app: FastAPI):
     model_map["audio"] = Audio()
     model_map["message"] = "Hello World"
 
+    # 打开网页
+    webbrowser.open(f"http://{HOST_IP}:{PORT}")
+
     yield
 
     model_map.clear()
@@ -61,7 +64,6 @@ async def root(request: Request):
 
 
 if __name__ == '__main__':
-    # webbrowser.open(f"http://{HOST_IP}:{PORT}")
     uvicorn.run(
         app,
         host=str(HOST_IP),

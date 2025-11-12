@@ -21,7 +21,7 @@ class TranslatorElement extends HTMLElement{
 
         this.buttonTranslate = this.shadowRoot.querySelector("#botton_translate");
         this.buttonAudio = this.shadowRoot.querySelector("#botton_audio");
-        this.buttonClear = this.shadowRoot.querySelector("#botton_audio");
+        this.buttonClear = this.shadowRoot.querySelector("#botton_clear");
 
         this.buttonTranslate.addEventListener("click", (e) => {
             const text = this.inputEdit.textContent.trim();

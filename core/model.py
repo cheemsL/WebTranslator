@@ -60,7 +60,7 @@ if __name__ == '__main__':
             "role": "system", "content": "You are a helpful assistant. Please translate the user input into Chinese.",
         },
         {
-            "role": "user", "content": "你好"
+            "role": "user", "content": "mother fuck!"
         }
     ]
     for output in llm.generate(messages):

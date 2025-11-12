@@ -1,8 +1,123 @@
 <template id="template_translator">
     <style>
+        #translator_container{
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            min-height: 400px;
+        }
+        #translator_head{
+            position: relative;
+            left: 0%;
+            top: 0%;
+            width: 30px;
+            height: 100%;
+            background-color: #f0f0f0;
+            border-radius: 5px 0px 0px 5px;
+            box-shadow: 0px 0px 4px #707070;
+            z-index: 1;
+            flex-direction: column;
+        }
+        .title{
+            width: 100%;
+            height: 30px;
+            position: absolute;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .title:nth-child(2) {
+            position: absolute;
+            top: 50%;
+            transform: translateY(0);
+        }
+        .button{
+            position: relative;
+            width: 100%;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #translator_body{
+            position: relative;
+            flex: 1;
+            display: flex;  /* 垂直排列 */
+            flex-direction: column;
+            border-radius: 0px 5px 5px 0px;
+            box-shadow: 0px 0px 4px #707070;
+        }
+        #translator_body_spliter{
+            width: 100%;
+            height: 2px;
+            background-color: #c0c0c0;
+        }
+        #input_container{
+            position: relative;
+            width: 100%;
+            flex: 1;
+            box-sizing: border-box;
+            border-radius: 5px;
+            display: flex;
+        }
+        #input_edit{
+            flex: 1;  /* 占据剩余空间 */
+            outline: none;
+            padding: 10px;
+            box-sizing: border-box;
+            text-indent: 2em; /* 首行缩进两个字符宽度 */
+            /* background-color: aliceblue; */
+        }
+        #output_container{
+            position: relative;
+            width: 100%;
+            flex: 1;
+            box-sizing: border-box;
+            border-radius: 5px;
+            /* border: solid 1px #000; */
+        }
+        #output_edit{
+            flex: 1;  /* 占据剩余空间 */
+            outline: none;
+            padding: 10px;
+            box-sizing: border-box;
+            text-indent: 2em; /* 首行缩进两个字符宽度 */
+            /* background-color: aliceblue; */
+        }
+        #botton_translate{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        #botton_translate:hover{
+            background-color: #e0e0e0;
+        }
 
     </style>
-    <div id="translator_root_container">
-        <p>我草泥马</p>
+    <div id="translator_container">
+        <div id="translator_head">
+            <div id="botton_translate">.</div>
+        </div>
+        <div id="translator_body">
+            <div id="input_container">
+                <div id="input_edit" contenteditable="true">
+                </div>
+            </div>
+            <div id="translator_body_spliter">
+            </div>
+            <div id="output_container">
+                <div id="output_edit">
+                </div>
+            </div>            
+        </div>
     </div>
 </template>

@@ -38,7 +38,7 @@ async def generate(request: Request, prompt: str):
         messages = [
             {
                 "role": "system",
-                "content": "You are a helpful assistant. Please translate the user input into Chinese.",
+                "content": "You are a translator. Please translate the user input into Chinese.",
             },
             {
                 "role": "user", "content": prompt

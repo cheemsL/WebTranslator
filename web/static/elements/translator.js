@@ -23,6 +23,13 @@ class TranslatorElement extends HTMLElement{
         this.buttonAudio = this.shadowRoot.querySelector("#botton_audio");
         this.buttonClear = this.shadowRoot.querySelector("#botton_clear");
 
+        this.inputEdit.addEventListener("paste", function (e) {
+            /* 只复制文本，忽略掉样式 */
+            e.preventDefault();
+            const text = (e.clipboardData || window.clipboardData).getData("text");
+            document.execCommand("insertText", false, text);
+        });
+
         this.buttonTranslate.addEventListener("click", (e) => {
             const text = this.inputEdit.textContent.trim();
             if (!text) return;

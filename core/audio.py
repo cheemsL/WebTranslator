@@ -3,7 +3,7 @@ import tempfile
 import pyttsx4
 
 
-class TTSVoice:
+class Audio:
     def __init__(self):
         os.makedirs("./temp", exist_ok=True)
         self.engine = pyttsx4.init()
@@ -16,7 +16,7 @@ class TTSVoice:
         self.engine.save_to_file(text, file_path)
         self.engine.runAndWait()
 
-    def to_wav(self, text: str) -> bytes:
+    def to_audio(self, text: str) -> bytes:
         # 临时文件保存音频
         with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as tmp:
             temp_path = tmp.name

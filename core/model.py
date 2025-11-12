@@ -2,7 +2,9 @@ import threading
 from transformers import (
     AutoModelForCausalLM,
     AutoTokenizer,
-    TextIteratorStreamer
+    TextIteratorStreamer,
+    StoppingCriteria,
+    StoppingCriteriaList
 )
 from typing import (
     List,
@@ -10,7 +12,14 @@ from typing import (
     Iterator
 )
 from env import MODEL_PATH
-print(MODEL_PATH)
+
+
+class StopOnEvent(StoppingCriteria):
+    """用于 Qwen3.terminate() 时强制停止生成"""
+    def __init__(self, terminate_event):
+        self.terminate_event = terminate_event
+    def __call__(self, input_ids, scores, **kwargs):
+        return self.terminate_event.is_set()
 
 
 class Qwen3:
@@ -23,8 +32,10 @@ class Qwen3:
         self.__tokenizer = AutoTokenizer.from_pretrained(
             MODEL_PATH,
         )
+        self.__is_generating = False
+        self.__terminate_event = threading.Event()
 
-    def generate(self, messages: List[Dict]) -> Iterator:
+    def generate(self, messages: List[Dict]) -> Iterator[str]:
         text = self.__tokenizer.apply_chat_template(
             messages,
             tokenize=False,
@@ -44,13 +55,30 @@ class Qwen3:
             "max_new_tokens": 32768,
             "streamer": streamer,
             "do_sample": False,
+            "stopping_criteria": StoppingCriteriaList([StopOnEvent(self.__terminate_event)])
         }
 
         thread = threading.Thread(target=self.__model.generate, kwargs=kwargs)
         thread.start()
 
-        for new_text in streamer:
-            yield new_text
+        self.__is_generating = True
+        self.__terminate_event.clear()
+
+        try:
+            for token in streamer:
+                if self.__terminate_event.is_set():
+                    break
+                yield token
+        finally:
+            self.__is_generating = False
+
+    @property
+    def is_generating(self) -> bool:
+        return self.__is_generating
+
+    def terminate(self):
+        if self.is_generating:
+            self.__terminate_event.set()
 
 
 if __name__ == '__main__':

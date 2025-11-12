@@ -98,14 +98,35 @@
             background-color: #f0f0f0;
             border-radius: 5px;
         }
-        #botton_translate:hover{
-            background-color: #e0e0e0;
+        #botton_translate #allow{
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke: #c0c0c0;
+            fill: #c0c0c0;
+        }
+        #botton_translate #square{
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke: #ff0000;
+            fill: #ff0000;
+            display: none;
+        }
+        #botton_translate:hover #allow{
+            stroke: #00c000;
+            fill: #00c000;
         }
 
     </style>
     <div id="translator_container">
         <div id="translator_head">
-            <div id="botton_translate">.</div>
+            <div id="botton_translate" title="点击开始翻译">
+                <svg  width="100%" height="100%" viewBox="0 0 64 64" preserveAspectRatio="xMidYMid meet">
+                    <polyline id="allow" points="20,32 42,17 42,47 20,32"/>
+                    <polyline id="square" points="22,22 42,22, 42,42, 22,42, 22,22"/>
+                </svg>
+            </div>
         </div>
         <div id="translator_body">
             <div id="input_container">

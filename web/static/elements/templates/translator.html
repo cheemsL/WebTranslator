@@ -3,7 +3,9 @@
         :host {
             display: block;
             height: 100%;  /* 或者 500px */
-            --shadow-color: #707070
+            --shadow-color: #707070;
+            --button-background-color: transparent;
+            --button-hover-background-color: #e0e0e0;
         }
         #translator_container{
             width: 100%;
@@ -98,6 +100,41 @@
             stroke: #00c000;
         }
 
+        .svg_botton {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            --color: #777;
+            --hover-color: #000;
+        }
+        .svg_botton::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 3px;
+            background-color: var(--button-background-color);
+            transition: background-color 0.3s ease;
+            z-index: 0;
+        }
+        .svg_botton:hover::before {
+            background-color: var(--button-hover-background-color);
+        }
+        .svg_botton::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            -webkit-mask-image: var(--svg);
+            mask-image: var(--svg);
+            background-color: var(--color); /* 图标颜色 */
+            z-index: 1;
+            transition: background-color 0.3s ease; 
+        }
+
+        .svg_botton:hover::after {
+            background-color: var(--hover-color);
+        }
+
+
     </style>
     <div id="translator_container">
         <div id="translator_head_container">
@@ -133,6 +170,8 @@
                     <polyline points="28,28 28,42"/>
                     <polyline points="36,42 36,28"/>
                 </svg>
+            </div>
+            <div class="svg_botton" style="--svg:url('./static/svg/clear.svg')" title="清空">
             </div>
         </div>
         <div id="translator_body_container">

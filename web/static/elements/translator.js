@@ -3,6 +3,9 @@ class TranslatorElement extends HTMLElement{
         super();
         this.attachShadow({mode: "open"})
 
+        this.isDragSpliter = false;
+        this.__spliterDragOffsetY = 0;
+
         fetch("./static/elements/templates/translator.html")
             .then((response) => response.text())
             .then((html) => {
@@ -16,15 +19,19 @@ class TranslatorElement extends HTMLElement{
     }
 
     initialize(){
+        this.bodyContainter = this.shadowRoot.querySelector("#translator_body_container")
+        this.inputContainter = this.shadowRoot.querySelector("#input_container")
+        this.outputContainter = this.shadowRoot.querySelector("#output_container")
+
         this.inputEdit = this.shadowRoot.querySelector("#input_edit");
         this.outputEdit = this.shadowRoot.querySelector("#output_edit");
 
+        this.spliter = this.shadowRoot.querySelector("#translator_body_spliter");
         this.buttonTranslate = this.shadowRoot.querySelector("#botton_translate");
         this.buttonAudio = this.shadowRoot.querySelector("#botton_audio");
         this.buttonClear = this.shadowRoot.querySelector("#botton_clear");
 
         this.inputEdit.addEventListener("paste", function (e) {
-            /* 只复制文本，忽略掉样式 */
             e.preventDefault();
             const text = (e.clipboardData || window.clipboardData).getData("text");
             document.execCommand("insertText", false, text);
@@ -46,6 +53,35 @@ class TranslatorElement extends HTMLElement{
             this.inputEdit.textContent="";
             this.outputEdit.textContent="";
         })
+        
+        this.spliter.addEventListener('mouseenter', ()=>{
+            document.body.style.cursor = 'row-resize';
+        })
+
+        this.spliter.addEventListener('mouseleave', ()=>{
+            if (this.isDragSpliter) return;
+            document.body.style.cursor = 'default';
+        })
+
+        this.spliter.addEventListener('mousedown', (e) => {
+            this.isDragSpliter = true
+            const spliterRect = this.spliter.getBoundingClientRect();
+            this.__spliterDragOffsetY = e.clientY - spliterRect.top;
+        });
+
+        window.addEventListener('mousemove', (e) =>{
+            if (!this.isDragSpliter) return;    
+            const bodyRect = this.bodyContainter.getBoundingClientRect();
+            const offset = e.clientY - bodyRect.top - this.__spliterDragOffsetY;
+            const topHeight = (offset / bodyRect.height) * 100;
+            this.inputContainter.style.flex = `0 0 ${topHeight}%`;
+        })
+
+        window.addEventListener('mouseup', () => {
+            this.isDragSpliter = false
+            document.body.style.cursor = 'default';
+        });
+
     }
 
     startTranslation(text){
